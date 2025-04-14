@@ -1,2 +1,2 @@
-# kids_learning
+# Kids_learning
 Kids learning
