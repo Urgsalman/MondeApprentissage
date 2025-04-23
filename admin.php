@@ -1,50 +1,144 @@
 <?php
 require 'Database.php';
+error_reporting(E_ERROR);
 
-class administrateurs {
-	public $nom_utilisateur ;
-	public $mot_de_passe ;
-	public $email ;
-	public $date_creation ;
+class Administrateur {
+	public $nom_utilisateur;
+	public $mot_de_passe;
+	public $email;
 	
-	public function __construct($nom_utilisateur, $mot_de_passe, $email, $date_creation){
+	public function __construct($nom_utilisateur, $mot_de_passe, $email) {
 		$this->nom_utilisateur = $nom_utilisateur;
 		$this->mot_de_passe = $mot_de_passe;
 		$this->email = $email;
-		$this->date_creation = $date_creation;
+	}
+
+	public function inserer() {
+		$db = Database::getInstance();
+		$connexion = $db->getConnection();
+		$sql = "INSERT INTO administrateurs (nom_utilisateur, mot_de_passe, email)
+		        VALUES ('$this->nom_utilisateur', '$this->mot_de_passe', '$this->email')";
+		$connexion->query($sql);
+	}
+
+	public static function supprimer($nom_utilisateur, $mot_de_passe) {
+		$db = Database::getInstance();
+		$connexion = $db->getConnection();
+		$sql = "DELETE FROM administrateurs WHERE nom_utilisateur = '$nom_utilisateur' AND mot_de_passe = '$mot_de_passe'";
+		$connexion->query($sql);
+		echo "supprimé $nom_utilisateur<br>";
+	}
+
+	public function miseajour($nouveau_mot_de_passe = "", $nouvel_email = "") {
+		$db = Database::getInstance();
+		$connexion = $db->getConnection();
+
+		if ($nouveau_mot_de_passe != "") {
+			$sql = "UPDATE administrateurs SET mot_de_passe = '$nouveau_mot_de_passe' WHERE nom_utilisateur = '$this->nom_utilisateur'";
+			$connexion->query($sql);
+			echo "mot_de_passe mis à jour<br>";
+		}
+		if ($nouvel_email != "") {
+			$sql = "UPDATE administrateurs SET email = '$nouvel_email' WHERE nom_utilisateur = '$this->nom_utilisateur'";
+			$connexion->query($sql);
+			echo "email mis à jour<br>";
+		}
 	}
 }
-	
-	
-	function inserer($nom_utilisateur, $mot_de_passe, $email){
-		$db = Database::getInstance();
-		$connexion = $db->getConnection();
-		$sql = "INSERT INTO administrateurs (nom_utilisateur, mot_de_passe, email) VALUES ('$nom_utilisateur', '$mot_de_passe', '$email')";
-		$result = $connexion->query($sql) ;
+
+class Categorie {
+	public $id;
+	public $nom;
+	public $image;
+
+	public function __construct($nom, $image = null) {
+		$this->nom = $nom;
+		$this->image = $image;
 	}
-	
-	function supprimer($nom_utilisateur,$mot_de_passe){
-		$db = Database::getInstance();
-		$connexion = $db->getConnection();
-		$sql= "DELETE FROM administrateurs WHERE nom_utilisateur = '$nom_utilisateur' AND mot_de_passe= '$mot_de_passe' ";
-		$result = $connexion->query($sql) ;
-		echo "supprimer $nom_utilisateur" . "<br>";
+
+	public function inserer() {
+		$db = Database::getInstance()->getConnection();
+		$sql = "INSERT INTO categories (nom, image) VALUES ('$this->nom', '$this->image')";
+		$db->query($sql);
 	}
-	
-	function miseajour($nom_utilisateur, $mot_de_passe, $email){
-		$db = Database::getInstance();
-		$connexion = $db->getConnection();
-		if ($mot_de_passe!=""){
-			$sql= "UPDATE administrateurs SET mot_de_passe='$mot_de_passe' WHERE nom_utilisateur = '$nom_utilisateur' ";
-			$result = $connexion->query($sql) ;
-			echo "mot_de_passe updated". "<br>";
-		}
-		if ($email!=""){
-			$sql= "UPDATE administrateurs SET email='$email' WHERE nom_utilisateur = '$nom_utilisateur' ";
-			$result = $connexion->query($sql) ;
-			echo "email updated". "<br>";
-		}
+
+	public static function supprimer($id) {
+		$db = Database::getInstance()->getConnection();
+		$db->query("DELETE FROM categories WHERE id = $id");
 	}
+
+	public function miseajour($id) {
+		$db = Database::getInstance()->getConnection();
+		$db->query("UPDATE categories SET nom = '$this->nom', image = '$this->image' WHERE id = $id");
+	}
+
 	
+}
+
+class Element {
+	public $categorie_id;
+	public $titre;
+	public $description;
+
+	public function __construct($categorie_id, $titre, $description = null) {
+		$this->categorie_id = $categorie_id;
+		$this->titre = $titre;
+		$this->description = $description;
+	}
+
+	public function inserer() {
+		$db = Database::getInstance()->getConnection();
+		$sql = "INSERT INTO elements (categorie_id, titre, description) VALUES ($this->categorie_id, '$this->titre', '$this->description')";
+		$db->query($sql);
+	}
+
+	public static function supprimer($id) {
+		$db = Database::getInstance()->getConnection();
+		$db->query("DELETE FROM elements WHERE id = $id");
+	}
+
+	public function miseajour($id) {
+		$db = Database::getInstance()->getConnection();
+		$db->query("UPDATE elements SET titre = '$this->titre', description = '$this->description' WHERE id = $id");
+	}
+
 	
+}
+
+class Media {
+	public $element_id;
+	public $typee;
+	public $chemin_fichier;
+	public $titre;
+
+	public function __construct($element_id, $typee, $chemin_fichier, $titre = null) {
+		$this->element_id = $element_id;
+		$this->typee = $typee;
+		$this->chemin_fichier = $chemin_fichier;
+		$this->titre = $titre;
+	}
+
+	public function inserer() {
+		$db = Database::getInstance()->getConnection();
+		$sql = "INSERT INTO medias (element_id, typee, chemin_fichier, titre) 
+		        VALUES ($this->element_id, '$this->typee', '$this->chemin_fichier', '$this->titre')";
+		$db->query($sql);
+	}
+
+	public static function supprimer($id) {
+		$db = Database::getInstance()->getConnection();
+		$db->query("DELETE FROM medias WHERE id = $id");
+	}
+
+	public function miseajour($id) {
+		$db = Database::getInstance()->getConnection();
+		$db->query("UPDATE medias SET typee = '$this->typee', chemin_fichier = '$this->chemin_fichier', titre = '$this->titre' WHERE id = $id");
+	}
+
+
+}
+
+
+
+
 ?>

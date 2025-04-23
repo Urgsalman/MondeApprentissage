@@ -1,0 +1,90 @@
+/* Reset de base */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Styles globaux */
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f4f4f9;
+    color: #333;
+    padding: 20px;
+}
+
+/* Conteneur principal */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Titre */
+.title {
+    text-align: center;
+    font-size: 2em;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+/* Tableau des médias */
+.media-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    background-color: #fff;
+}
+
+.media-table th, .media-table td {
+    padding: 12px;
+    text-align: center;
+    border: 1px solid #ddd;
+}
+
+.media-table th {
+    background-color: #4CAF50;
+    color: white;
+}
+
+.media-table td img {
+    width: 80px;
+    height: 80px;
+    border-radius: 8px;
+}
+
+.media-table td a {
+    color: #4CAF50;
+    text-decoration: none;
+}
+
+.media-table td a:hover {
+    text-decoration: underline;
+}
+
+/* Ajout d'un effet hover */
+.media-table tr:hover {
+    background-color: #f1f1f1;
+}
+
+/* Style des en-têtes */
+.media-table thead {
+    background-color: #333;
+    color: white;
+}
+
+/* Responsivité : petit écran */
+@media (max-width: 768px) {
+    .media-table th, .media-table td {
+        font-size: 12px;
+        padding: 8px;
+    }
+
+    .media-table img {
+        width: 60px;
+        height: 60px;
+    }
+}
