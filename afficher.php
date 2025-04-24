@@ -106,7 +106,7 @@ $result = $db->query($sql);
 </head>
 <body>
     <div class="container">
-        <a href="index.php" class="btn-back">Retour à l'accueil</a>
+        <a href="admin_interface.php" class="btn-back">Retour à l'accueil</a>
         <table>
             <thead>
                 <tr>

@@ -171,7 +171,7 @@ $result = $db->query("SELECT * FROM categories");
     </style>
 </head>
 <body>
-    <a href="index.php" class="btn btn-back">Retour à l'accueil</a>
+    <a href="admin_interface.php" class="btn btn-back">Retour à l'accueil</a>
     <div class="container">
         <?php if (isset($message)): ?>
             <div class="success-message"><?= htmlspecialchars($message) ?></div>

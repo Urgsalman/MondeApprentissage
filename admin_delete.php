@@ -1,14 +1,14 @@
+
 <?php
-require 'admin.php';
-$db = Database::getInstance()->getConnection();
+error_reporting(E_ERROR);
+require 'admin.php'; // inclut Categorie, Element, Media
 ?>
+
 <!DOCTYPE html>
-<html>
+<html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Supprimer du contenu</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <title>Suppression de contenu</title>
     <style>
         * {
             margin: 0;
@@ -82,7 +82,7 @@ $db = Database::getInstance()->getConnection();
         }
 
         .btn-back {
-            background-color: #2196F3;
+		background-color: #2196F3;
             color: white;
             margin-top: 1rem;
         }
@@ -91,85 +91,79 @@ $db = Database::getInstance()->getConnection();
             transform: translateY(-2px);
             box-shadow: 0 2px 5px rgba(0,0,0,0.2);
         }
+		.hidden { display: none; }
     </style>
+    <script>
+        function showSelect(type) {
+            document.getElementById('categorie-select').style.display = 'none';
+            document.getElementById('element-select').style.display = 'none';
+            document.getElementById('media-select').style.display = 'none';
+
+            if (type === 'categorie') {
+                document.getElementById('categorie-select').style.display = 'block';
+            } else if (type === 'element') {
+                document.getElementById('element-select').style.display = 'block';
+            } else if (type === 'media') {
+                document.getElementById('media-select').style.display = 'block';
+            }
+        }
+    </script>
 </head>
 <body>
-    <div class="container">
-        <h1>Suppression de contenu</h1>
+    <form action="traitement.php" method="post">
+        <h2>Supprimer un contenu</h2>
 
-        <?php if (isset($_GET['deleted']) && $_GET['deleted'] == 1): ?>
-            <div class="success-message">Le contenu a été supprimé avec succès.</div>
-        <?php endif; ?>
+        <label for="type">Type de contenu :</label>
+        <select name="type_suppression" id="type" onchange="showSelect(this.value)" required>
+            <option value="">-- Choisir --</option>
+            <option value="categorie">Catégorie</option>
+            <option value="element">Élément</option>
+            <option value="media">Média</option>
+        </select>
 
-        <form action="traitement.php" method="post" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer cet élément ?');">
-            <h2>Sélectionnez le type de contenu à supprimer</h2>
+        <!-- Sélection des catégories -->
+        <div id="categorie-select" class="hidden">
+            <label>Choisir une catégorie :</label>
+            <select name="id_suppression">
+                <?php
+                $db = Database::getInstance()->getConnection();
+                $res = $db->query("SELECT id, nom FROM categories");
+                while ($row = $res->fetch_object()) {
+                    echo "<option value='{$row->id}'>[{$row->id}] {$row->nom}</option>";
+                }
+                ?>
+            </select>
+        </div>
 
-            <div>
-                <label for="type">Type de contenu :</label>
-                <select name="type_suppression" id="type" onchange="showSelect(this.value)" required>
-                    <option value="">-- Choisir --</option>
-                    <option value="categorie">Catégorie</option>
-                    <option value="element">Élément</option>
-                    <option value="media">Média</option>
-                </select>
-            </div>
+        <!-- Sélection des éléments -->
+        <div id="element-select" class="hidden">
+            <label>Choisir un élément :</label>
+            <select name="id_suppression">
+                <?php
+                $res = $db->query("SELECT id, titre FROM elements");
+                while ($row = $res->fetch_object()) {
+                    echo "<option value='{$row->id}'>[{$row->id}] {$row->titre}</option>";
+                }
+                ?>
+            </select>
+        </div>
 
-            <div id="categorie-select" style="display: none;">
-                <label>Choisir une catégorie :</label>
-                <select name="id_suppression" required>
-                    <?php
-                    $res = $db->query("SELECT id, nom FROM categories ORDER BY nom");
-                    while ($row = $res->fetch_object()) {
-                        echo "<option value='" . htmlspecialchars($row->id) . "'>" . 
-                             htmlspecialchars("[{$row->id}] {$row->nom}") . "</option>";
-                    }
-                    ?>
-                </select>
-            </div>
+        <!-- Sélection des médias -->
+        <div id="media-select" class="hidden">
+            <label>Choisir un média :</label>
+            <select name="id_suppression">
+                <?php
+                $res = $db->query("SELECT id, titre FROM medias");
+                while ($row = $res->fetch_object()) {
+                    $titre = $row->titre ?: "(sans titre)";
+                    echo "<option value='{$row->id}'>[{$row->id}] {$titre}</option>";
+                }
+                ?>
+            </select>
+        </div>
 
-            <div id="element-select" style="display: none;">
-                <label>Choisir un élément :</label>
-                <select name="id_suppression" required>
-                    <?php
-                    $res = $db->query("SELECT id, titre FROM elements ORDER BY titre");
-                    while ($row = $res->fetch_object()) {
-                        echo "<option value='" . htmlspecialchars($row->id) . "'>" . 
-                             htmlspecialchars("[{$row->id}] {$row->titre}") . "</option>";
-                    }
-                    ?>
-                </select>
-            </div>
-
-            <div id="media-select" style="display: none;">
-                <label>Choisir un média :</label>
-                <select name="id_suppression" required>
-                    <?php
-                    $res = $db->query("SELECT id, titre FROM medias ORDER BY titre");
-                    while ($row = $res->fetch_object()) {
-                        $titre = $row->titre ?: "(sans titre)";
-                        echo "<option value='" . htmlspecialchars($row->id) . "'>" . 
-                             htmlspecialchars("[{$row->id}] {$titre}") . "</option>";
-                    }
-                    ?>
-                </select>
-            </div>
-
-            <button type="submit" name="supprimer" class="btn btn-delete">Supprimer</button>
-        </form>
-        <a href="index.php" class="btn btn-back">Retour à l'accueil</a>
-    </div>
-
-    <script>
-    function showSelect(type) {
-        const selects = ['categorie-select', 'element-select', 'media-select'];
-        selects.forEach(id => {
-            document.getElementById(id).style.display = 'none';
-        });
-        
-        if (type) {
-            document.getElementById(type + '-select').style.display = 'block';
-        }
-    }
-    </script>
+        <button type="submit" name="supprimer">Supprimer</button>
+    </form>
+	<a href="admin_interface.php" class="btn btn-back">Retour à l'accueil</a>
 </body>
 </html>

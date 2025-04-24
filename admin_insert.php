@@ -128,7 +128,7 @@
     </style>
 </head>
 <body>
-<a href="index.php" class="btn btn-back">Retour à l'accueil</a>
+<a href="admin_interface.php" class="btn btn-back">Retour à l'accueil</a>
 <h1>Ajouter du contenu</h1>
 
 <div class="form-section">
@@ -155,6 +155,7 @@
             <label for="categorie_id">Catégorie :</label>
             <select id="categorie_id" name="categorie_id" required>
                 <?php
+				require_once 'Database.php';
                 $db = Database::getInstance()->getConnection();
                 $result = $db->query("SELECT * FROM categories");
                 while ($row = $result->fetch_assoc()) {

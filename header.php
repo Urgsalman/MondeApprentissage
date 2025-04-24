@@ -1,7 +1,7 @@
 <?php
 session_start();
 if (!isset($_SESSION['logged_in'])) {
-    header("Location: index.php");
+    header("Location: admin_interface.php");
     exit;
 }
 ?>
@@ -110,13 +110,13 @@ if (!isset($_SESSION['logged_in'])) {
     <nav class="admin-nav">
         <div class="container">
             <ul class="nav-links">
-                <li><a href="index.php">Accueil Admin</a></li>
+                <li><a href="admin_interface.php">Accueil Admin</a></li>
                 <li><a href="afficher.php">Afficher Médias</a></li>
                 <li><a href="admin_insert.php">Ajouter Contenu</a></li>
                 <li><a href="admin_delete.php">Supprimer Contenu</a></li> 
                 <li><a href="modifier_element.php">Modifier Élément</a></li>
                 <li><a href="modifier_categorie.php">Modifier Catégorie</a></li>
-                <li><a href="index.php?logout=1">Déconnexion</a></li>
+                <li><a href="admin_interface.php?logout=1">Déconnexion</a></li>
             </ul>
         </div>
     </nav>

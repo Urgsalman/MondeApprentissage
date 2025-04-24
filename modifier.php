@@ -33,7 +33,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $media_obj = new Media($element_id, $typee, $chemin_fichier, $titre);
     $media_obj->miseajour($id);
 
-    header("Location: index.php");
+    header("Location: admin_interface.php");
     exit;
 }
 ?>
@@ -165,7 +165,41 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         <h3>ID à mettre à jour : <?= htmlspecialchars($media['id']) ?></h3>
         <h2>Modifier Média</h2>
         <form method="post" enctype="multipart/form-data">
-            <!-- ...existing form inputs... -->
+            </head>
+			<body>
+				<h3>ID à mettre à jour : <?= htmlspecialchars($media['id']) ?></h3>
+				<h2>Modifier Média</h2>
+				<form method="post" enctype="multipart/form-data">
+					<input type="hidden" name="id" value="<?= htmlspecialchars($media['id']) ?>">
+					<input type="hidden" name="chemin_fichier_existant" value="<?= htmlspecialchars($media['chemin_fichier']) ?>">
+
+					<label>Élément :
+						<select name="element_id">
+							<?php foreach ($elements as $el): ?>
+								<option value="<?= $el['id'] ?>" <?= $el['id'] == $media['element_id'] ? 'selected' : '' ?>>
+									<?= htmlspecialchars($el['titre']) ?>
+								</option>
+							<?php endforeach; ?>
+						</select>
+					</label><br><br>
+
+					<label>Type :
+						<select name="typee">
+							<option value="image" <?= $media['typee'] == 'image' ? 'selected' : '' ?>>Image</option>
+							<option value="audio" <?= $media['typee'] == 'audio' ? 'selected' : '' ?>>Audio</option>
+							<option value="video" <?= $media['typee'] == 'video' ? 'selected' : '' ?>>Vidéo</option>
+						</select>
+					</label><br><br>
+
+					<label>Titre : <input type="text" name="titre" value="<?= htmlspecialchars($media['titre']) ?>"></label><br><br>
+
+					<label>Fichier : <input type="file" name="chemin_fichier"></label><br>
+					<small>Fichier actuel : <?= htmlspecialchars($media['chemin_fichier']) ?></small><br><br>
+
+					<input type="submit" value="Mettre à jour">
+				</form>
+			</body>
+			</html>
         </form>
     </div>
 </body>

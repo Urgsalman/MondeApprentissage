@@ -159,7 +159,7 @@ $categories = $db->query("SELECT * FROM categories");
     </style>
 </head>
 <body>
-    <a href="index.php" class="btn btn-back">Retour à l'accueil</a>
+    <a href="admin_interface.php" class="btn btn-back">Retour à l'accueil</a>
     <form method="post">
         <h2>Modifier un élément</h2>
         <?php if (isset($message)): ?>

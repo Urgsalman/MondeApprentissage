@@ -1,7 +1,7 @@
 </div>
         
         <div class="admin-footer">
-            <p>&copy; <?php echo date('Y'); ?> SITE DRARI SGHAR FOR NIGGAS</p>
+            <p>&copy; <?php echo date('Y'); ?> MondeApprentissage</p>
         </div>
     </div>
 </body>

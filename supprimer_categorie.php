@@ -134,7 +134,7 @@ $result = $db->query("SELECT * FROM categories");
                 <p style="text-align: center; color: #666;">Aucune catégorie disponible</p>
             <?php endif; ?>
         </form>
-        <a href="index.php" class="btn-back">Retour à l'accueil</a>
+        <a href="admin_interface.php" class="btn-back">Retour à l'accueil</a>
     </div>
 </body>
 </html>
