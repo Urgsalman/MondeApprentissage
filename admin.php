@@ -131,9 +131,18 @@ class Media {
 	}
 
 	public function miseajour($id) {
-		$db = Database::getInstance()->getConnection();
-		$db->query("UPDATE medias SET typee = '$this->typee', chemin_fichier = '$this->chemin_fichier', titre = '$this->titre' WHERE id = $id");
+    $db = Database::getInstance()->getConnection();
+    $sql = "UPDATE medias 
+            SET element_id = $this->element_id,
+                typee = '$this->typee', 
+                chemin_fichier = '$this->chemin_fichier', 
+                titre = '$this->titre' 
+            WHERE id = $id";
+    $db->query($sql);
+	if (!$db->query($sql)) {
+		echo "Erreur MySQL : " . $db->error;
 	}
+}
 
 
 }
