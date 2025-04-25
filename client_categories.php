@@ -42,7 +42,7 @@ include 'client_header.php';
     <?php foreach ($categories as $cat): ?>
         <p>Catégorie: <?php echo $cat['nom_categorie']; ?>, 
            Image: '<?php echo $cat['image']; ?>', 
-           Chemin complet: <?php echo file_exists('uploads/categories/'.$cat['image']) ? 'Existe' : 'N\'existe pas'; ?>
+           Chemin complet: <?php echo file_exists('uploads/'.$cat['image']) ? 'Existe' : 'N\'existe pas'; ?>
         </p>
     <?php endforeach; ?>
 </div>
@@ -54,8 +54,8 @@ include 'client_header.php';
             <?php foreach ($categories as $category): ?>
                 <div class="category-card">
                     <a href="client_elements.php?categorie_id=<?php echo $category['id']; ?>">
-                        <?php if (!empty($category['image']) && file_exists('uploads/categories/'.$category['image'])): ?>
-                            <img src="uploads/categories/<?php echo $category['image']; ?>" alt="<?php echo $category['nom_categorie']; ?>">
+                        <?php if (!empty($category['image']) && file_exists('uploads/'.$category['image'])): ?>
+                            <img src="uploads/<?php echo $category['image']; ?>" alt="<?php echo $category['nom_categorie']; ?>">
                         <?php else: ?>
                             <div class="no-image" style="background-color: <?php echo !empty($category['color']) ? $category['color'] : '#4ab1ff'; ?>">
                                 <span><?php echo substr($category['nom_categorie'], 0, 1); ?></span>
