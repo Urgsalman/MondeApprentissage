@@ -1,0 +1,36 @@
+-- Table administrateurs
+CREATE TABLE administrateurs (
+    nom_utilisateur VARCHAR(50) NOT NULL,
+    mot_de_passe VARCHAR(255) NOT NULL,
+    email VARCHAR(100),
+    date_creation DATETIME DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Table categories
+CREATE TABLE categories (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nom VARCHAR(100) NOT NULL,
+    image VARCHAR(255), 
+    date_creation DATETIME DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Table elements
+CREATE TABLE elements (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    categorie_id INT NOT NULL,
+    titre VARCHAR(255) NOT NULL,
+    description TEXT,
+    date_creation DATETIME DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (categorie_id) REFERENCES categories(id)
+);
+
+-- Table medias
+CREATE TABLE medias (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    element_id INT NOT NULL,
+    typee ENUM('image','audio','video') NOT NULL,
+    chemin_fichier VARCHAR(255) NOT NULL,  -- Chemin dans uploads/
+    titre VARCHAR(100),
+    date_creation DATETIME DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (element_id) REFERENCES elements(id)
+);

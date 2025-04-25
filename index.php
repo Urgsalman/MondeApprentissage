@@ -16,7 +16,7 @@
             <ul>
                 <li><a href="index.php" class="active">Accueil</a></li>
                 <li><a href="client_categories.php">Catégories</a></li>
-                <li><a href="client_jeux.php">Jeux éducatifs</a></li>
+                <li><a href="client_jeux.php">Quiz</a></li>
                 <li><a href="client_contact.php">Contact</a></li>
             </ul>
         </nav>
@@ -31,7 +31,7 @@
             <p>Un univers coloré où les enfants découvrent et apprennent en s'amusant</p>
         </div>
     </section>
-
+    
     <section class="categories-preview">
         <h2>Découvre nos catégories</h2>
         <div class="categories-container">
