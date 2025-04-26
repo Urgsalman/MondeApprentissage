@@ -23,6 +23,18 @@ $popularResult = $conn->query($popularQuery);
 $popularItems = $popularResult->fetch_all(MYSQLI_ASSOC);
 ?>
 
+<?php 
+$pageTitle = "Accueil - MondeApprentissage";
+
+// Define category IDs (you should replace these with your actual category IDs)
+$categoryIds = [
+    'Animaux' => 1,       // Replace with actual ID from your database
+    'Transports' => 4,    // Replace with actual ID from your database
+    'Nombres' => 3,       // Replace with actual ID from your database
+    'Couleurs' => 5       // Replace with actual ID from your database
+];
+?>
+
 <!-- Section Bienvenue -->
 <section class="welcome-section">
     <div class="welcome-content">
@@ -43,22 +55,22 @@ $popularItems = $popularResult->fetch_all(MYSQLI_ASSOC);
     <h2>Découvre nos catégories</h2>
     
     <div class="categories-grid">
-        <a href="client_elements.php?categorie_id=<?= $categories['Animaux'] ?? '' ?>" class="category-card">
+        <a href="client_elements.php?categorie_id=<?= $categoryIds['Animaux'] ?>" class="category-card">
             <img src="uploads/categories/animaux.jpg" alt="Animaux">
             <h3>Animaux</h3>
         </a>
         
-        <a href="client_elements.php?categorie_id=<?= $categories['Transports'] ?? '' ?>" class="category-card">
+        <a href="client_elements.php?categorie_id=<?= $categoryIds['Transports'] ?>" class="category-card">
             <img src="uploads/categories/transports.jpg" alt="Transports">
             <h3>Transports</h3>
         </a>
         
-        <a href="client_elements.php?categorie_id=<?= $categories['Nombres'] ?? '' ?>" class="category-card">
+        <a href="client_elements.php?categorie_id=<?= $categoryIds['Nombres'] ?>" class="category-card">
             <img src="uploads/categories/nombres.jpg" alt="Nombres">
             <h3>Nombres</h3>
         </a>
         
-        <a href="client_elements.php?categorie_id=<?= $categories['Couleurs'] ?? '' ?>" class="category-card">
+        <a href="client_elements.php?categorie_id=<?= $categoryIds['Couleurs'] ?>" class="category-card">
             <img src="uploads/categories/couleurs.jpg" alt="Couleurs">
             <h3>Couleurs</h3>
         </a>
@@ -68,6 +80,8 @@ $popularItems = $popularResult->fetch_all(MYSQLI_ASSOC);
         <a href="client_categories.php" class="see-more-btn">Voir toutes les catégories →</a>
     </div>
 </section>
+
+
 
 <!-- Nouvelle Section Contenus populaires -->
 <section class="popular-section">
@@ -82,7 +96,7 @@ $popularItems = $popularResult->fetch_all(MYSQLI_ASSOC);
                 // Vous devrez adapter ce chemin selon votre structure de fichiers
                 $imagePath = "uploads/elements/" . strtolower(str_replace(' ', '-', $item['titre'])) . ".jpg";
                 ?>
-                <img src="<?= file_exists($imagePath) ? $imagePath : 'uploads/default-element.jpg' ?>" alt="<?= $item['titre'] ?>">
+                <img src="<?= file_exists($imagePath) ? $imagePath : 'uploads/default-element.gif' ?>" alt="<?= $item['titre'] ?>">
                 <div class="popular-content">
                     <h3><?= $item['titre'] ?></h3>
                     <span class="popular-category"><?= $item['categorie_nom'] ?></span>
@@ -91,6 +105,8 @@ $popularItems = $popularResult->fetch_all(MYSQLI_ASSOC);
         <?php endforeach; ?>
     </div>
 </section>
+
+<?php include 'client_footer.php'; ?> 
 
 <style>
 /* Styles pour la nouvelle section populaire */
@@ -185,5 +201,3 @@ $popularItems = $popularResult->fetch_all(MYSQLI_ASSOC);
     }
 }
 </style>
-
-<?php include 'client_footer.php'; ?>
