@@ -110,11 +110,24 @@ class Element {
 		$db->query("DELETE FROM elements WHERE id = $id");
 	}
 
-	public function miseajour($id) {
-		$db = Database::getInstance()->getConnection();
-		$db->query("UPDATE elements SET titre = '$this->titre', description = '$this->description' WHERE id = $id");
-	}
 
+    public function miseajour($id) {
+        $db = Database::getInstance()->getConnection();
+        $stmt = $db->prepare("UPDATE elements SET 
+            categorie_id = ?, 
+            titre = ?, 
+            description = ? 
+            WHERE id = ?");
+        
+        $stmt->bind_param("issi", 
+            $this->categorie_id,
+            $this->titre,
+            $this->description,
+            $id
+        );
+
+        return $stmt->execute();
+	}
 	
 }
 

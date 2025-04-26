@@ -4,6 +4,8 @@ if (!isset($_SESSION['logged_in'])) {
     header("Location: admin_interface.php");
     exit;
 }
+
+
 ?>
 <!DOCTYPE html>
 <html lang="fr">

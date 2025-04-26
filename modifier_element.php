@@ -2,16 +2,32 @@
 require 'admin.php';
 $db = Database::getInstance()->getConnection();
 
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $titre = $_POST['titre'];
-    $description = $_POST['description'];
-    $element_id = $_POST['element_id'];
-    $categorie_id = $_POST['categorie_id'];
-    $element = new Element($categorie_id, $titre, $description);
-    $element->miseajour($element_id);
-    echo "Élément mis à jour.";
+// Nouveau code pour précharger les données existantes
+$element_data = null;
+if ($_SERVER['REQUEST_METHOD'] == 'GET' && isset($_GET['element_id'])) {
+    $stmt = $db->prepare("SELECT * FROM elements WHERE id = ?");
+    $stmt->bind_param("i", $_GET['element_id']);
+    $stmt->execute();
+    $element_data = $stmt->get_result()->fetch_assoc();
 }
 
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    $element_id = intval($_POST['element_id']);
+    $categorie_id = intval($_POST['categorie_id']);
+    $titre = $_POST['titre'];
+    $description = $_POST['description'];
+
+    $element = new Element($categorie_id, $titre, $description);
+    if ($element->miseajour($element_id)) {
+        $message = "Élément mis à jour avec succès !";
+        header("Location: modifier_element.php?element_id=" . $element_id); // Recharger les nouvelles données
+        exit;
+    } else {
+        $message = "Erreur : " . $db->error;
+    }
+}
+
+// Récupération des données actualisées
 $elements = $db->query("SELECT * FROM elements");
 $categories = $db->query("SELECT * FROM categories");
 ?>
@@ -161,40 +177,49 @@ $categories = $db->query("SELECT * FROM categories");
 <body>
     <a href="admin_interface.php" class="btn btn-back">Retour à l'accueil</a>
     <form method="post">
-        <h2>Modifier un élément</h2>
-        <?php if (isset($message)): ?>
-            <div class="success-message"><?= htmlspecialchars($message) ?></div>
-        <?php endif; ?>
-        
-        <label>
-            Élément
-            <select name="element_id" required>
-                <?php while ($el = $elements->fetch_assoc()): ?>
-                    <option value="<?= htmlspecialchars($el['id']) ?>"><?= htmlspecialchars($el['titre']) ?></option>
-                <?php endwhile; ?>
-            </select>
-        </label>
+		<h2>Modifier un élément</h2>
+		
+		<label>
+			Sélectionner l'élément à modifier :
+			<select name="element_id" id="element-select" required 
+					onchange="location = 'modifier_element.php?element_id=' + this.value">
+				<option value="">-- Choisir un élément --</option>
+				<?php while ($el = $elements->fetch_assoc()): ?>
+					<option value="<?= $el['id'] ?>" 
+						<?= isset($_GET['element_id']) && $_GET['element_id'] == $el['id'] ? 'selected' : '' ?>>
+						<?= htmlspecialchars($el['titre']) ?>
+					</option>
+				<?php endwhile; ?>
+			</select>
+		</label>
 
-        <label>
-            Nouveau titre
-            <input type="text" name="titre" required>
-        </label>
+		<?php if ($element_data): ?>
+			<input type="hidden" name="element_id" value="<?= $element_data['id'] ?>">
+			
+			<label>
+				Nouveau titre :
+				<input type="text" name="titre" value="<?= htmlspecialchars($element_data['titre']) ?>" required>
+			</label>
 
-        <label>
-            Description
-            <input type="text" name="description" required>
-        </label>
+			<label>
+				Description :
+				<textarea name="description"><?= htmlspecialchars($element_data['description']) ?></textarea>
+			</label>
 
-        <label>
-            Catégorie
-            <select name="categorie_id" required>
-                <?php while ($cat = $categories->fetch_assoc()): ?>
-                    <option value="<?= htmlspecialchars($cat['id']) ?>"><?= htmlspecialchars($cat['nom']) ?></option>
-                <?php endwhile; ?>
-            </select>
-        </label>
-
-        <input type="submit" value="Mettre à jour">
-    </form>
+			<label>
+				Catégorie :
+				<select name="categorie_id" required>
+					<?php while ($cat = $categories->fetch_assoc()): ?>
+						<option value="<?= $cat['id'] ?>" 
+							<?= $cat['id'] == $element_data['categorie_id'] ? 'selected' : '' ?>>
+							<?= htmlspecialchars($cat['nom']) ?>
+						</option>
+					<?php endwhile; ?>
+				</select>
+			</label>
+			
+			<input type="submit" value="Mettre à jour">
+		<?php endif; ?>
+	</form>
 </body>
 </html>

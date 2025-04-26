@@ -2,26 +2,66 @@
 require 'admin.php';
 $db = Database::getInstance()->getConnection();
 
+
+// Récupérer toutes les catégories
+$categories = $db->query("SELECT * FROM categories");
+
+// Initialiser les variables
+$current_category = null;
+
+// Si une catégorie est sélectionnée
+if (isset($_GET['categorie_id'])) {
+    $categorie_id = intval($_GET['categorie_id']);
+    $stmt = $db->prepare("SELECT * FROM categories WHERE id = ?");
+    $stmt->bind_param("i", $categorie_id);
+    $stmt->execute();
+    $current_category = $stmt->get_result()->fetch_assoc();
+}
+
+// Traitement de la mise à jour
+if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['mettre_a_jour'])) {
+    // [Garder le code de gestion de l'upload et de la mise à jour]
+}
+
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $nom = $_POST['nom'];
-	$chemin_fichier = $_POST['chemin_fichier_existant']; 
-	$chemin_fichier = $_POST['chemin_fichier_existant']; 
-if (isset($_FILES['chemin_fichier']) && $_FILES['chemin_fichier']['error'] == 0) {
-    $target_dir = 'uploads/';
-    $file_info = pathinfo($_FILES['chemin_fichier']['name']);
-    $chemin_fichier = $target_dir . basename($file_info['basename']);
-    if (move_uploaded_file($_FILES['chemin_fichier']['tmp_name'], $chemin_fichier)) {
-        $image = $chemin_fichier;
-    } else {
-        echo 'Erreur lors de l\'upload du fichier.';
-    }
-} else {
-    $image = $chemin_fichier;
-}
     $categorie_id = $_POST['categorie_id'];
-    $categorie = new Categorie($nom, $image);
-    $categorie->miseajour($categorie_id);
-    echo "Catégorie mise à jour.";
+    
+    // Récupération de l'image existante
+    $stmt = $db->prepare("SELECT image FROM categories WHERE id = ?");
+    $stmt->bind_param("i", $categorie_id);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $old_image = $result->fetch_assoc()['image'];
+    
+    // Gestion du nouveau fichier
+    $new_image = $old_image; // Conserver l'ancienne image par défaut
+    
+    if (isset($_FILES['image']) && $_FILES['image']['error'] == 0) {
+        $target_dir = 'uploads/';
+        $file_name = uniqid() . '_' . basename($_FILES['image']['name']);
+        $target_path = $target_dir . $file_name;
+        
+        if (move_uploaded_file($_FILES['image']['tmp_name'], $target_path)) {
+            // Supprimer l'ancienne image si elle existe
+            if(file_exists($old_image)) {
+                unlink($old_image);
+            }
+            $new_image = $file_name;
+        } else {
+            die("Erreur lors de l'upload de l'image");
+        }
+    }
+    
+    // Mise à jour dans la base de données
+    $stmt = $db->prepare("UPDATE categories SET nom = ?, image = ? WHERE id = ?");
+    $stmt->bind_param("ssi", $nom, $new_image, $categorie_id);
+    
+    if ($stmt->execute()) {
+        $message = "Catégorie mise à jour avec succès !";
+    } else {
+        $message = "Erreur lors de la mise à jour : " . $db->error;
+    }
 }
 
 $result = $db->query("SELECT * FROM categories");
@@ -168,6 +208,20 @@ $result = $db->query("SELECT * FROM categories");
                 padding: 1.5rem;
             }
         }
+		select {
+			padding: 10px;
+			border: 2px solid #2196F3;
+			border-radius: 5px;
+			width: 100%;
+			margin-bottom: 20px;
+		}
+
+		form[method="get"] {
+			margin-bottom: 30px;
+			padding: 20px;
+			background: #f8f9fa;
+			border-radius: 8px;
+		}
     </style>
 </head>
 <body>
@@ -177,32 +231,41 @@ $result = $db->query("SELECT * FROM categories");
             <div class="success-message"><?= htmlspecialchars($message) ?></div>
         <?php endif; ?>
         
-        <form method="post" enctype="multipart/form-data">
-            <h2>Modifier une catégorie</h2>
-            
-            <div>
-                <label for="categorie_id">Catégorie</label>
-                <select name="categorie_id" id="categorie_id" required>
-                    <?php while ($cat = $result->fetch_assoc()): ?>
-                        <option value="<?= htmlspecialchars($cat['id']) ?>">
-                            <?= htmlspecialchars($cat['nom']) ?>
-                        </option>
-                    <?php endwhile; ?>
-                </select>
-            </div>
+		<form method="get" action="modifier_categorie.php">
+			<div>
+				<label>Choisir la catégorie à modifier :</label>
+				<select name="categorie_id" required onchange="this.form.submit()">
+					<option value="">-- Sélectionner --</option>
+					<?php while ($cat = $categories->fetch_assoc()): ?>
+						<option value="<?= $cat['id'] ?>" 
+							<?= isset($_GET['categorie_id']) && $_GET['categorie_id'] == $cat['id'] ? 'selected' : '' ?>>
+							<?= htmlspecialchars($cat['nom']) ?>
+						</option>
+					<?php endwhile; ?>
+				</select>
+			</div>
+		</form>
 
-            <div>
-                <label for="nom">Nouveau nom</label>
-                <input type="text" name="nom" id="nom" required>
-            </div>
+		<?php if ($current_category): ?>
+		<form method="post" enctype="multipart/form-data">
+			<input type="hidden" name="categorie_id" value="<?= $current_category['id'] ?>">
+			
+			<div>
+				<label>Nouveau nom :</label>
+				<input type="text" name="nom" value="<?= htmlspecialchars($current_category['nom']) ?>" required>
+			</div>
 
-            <div>
-                <label for="image">Nouvelle image</label>
-                <input type="file" name="image" id="image" accept="image/*">
-            </div>
+			<div>
+				<label>Nouvelle image :</label>
+				<input type="file" name="image">
+				<small>Image actuelle : 
+					<?= $current_category['image'] ? basename($current_category['image']) : 'Aucune' ?>
+				</small>
+			</div>
 
-            <input type="submit" value="Mettre à jour">
-        </form>
+			<input type="submit" name="mettre_a_jour" value="Mettre à jour">
+		</form>
+		<?php endif; ?>
     </div>
 </body>
 </html>

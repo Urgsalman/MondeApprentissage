@@ -176,6 +176,9 @@ if (!isset($_SESSION['logged_in'])) {
     </style>
 </head>
 <body>
+	<div style="text-align: center; margin-top: 1rem;">
+		<a href="index.php" class="btn" style="background-color: #777;">Retour à l'accueil</a>
+	</div>
     <div class="login-container">
         <h2 class="login-title">Connexion Administration</h2>
         
