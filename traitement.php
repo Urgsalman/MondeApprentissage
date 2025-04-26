@@ -2,9 +2,8 @@
 
 <?php
 error_reporting(E_ERROR);
-require_once 'admin.php'; // Ce fichier doit contenir les classes Categorie, Element, Media
+require_once 'admin.php';
 
-// 🔹 Ajouter une catégorie
 if (isset($_POST['ajouter_categorie'])) {
     $nom = $_POST['categorie_nom'];
     $image = null;
@@ -23,7 +22,6 @@ if (isset($_POST['ajouter_categorie'])) {
     exit;
 }
 
-// 🔹 Ajouter un élément
 if (isset($_POST['ajouter_element'])) {
     $categorie_id = $_POST['categorie_id'];
     $titre = $_POST['element_titre'];
@@ -35,7 +33,6 @@ if (isset($_POST['ajouter_element'])) {
     exit;
 }
 
-// 🔹 Ajouter un média
 if (isset($_POST['ajouter_media'])) {
     $element_id = $_POST['element_id'];
     $typee = $_POST['media_typee'];
@@ -58,21 +55,32 @@ if (isset($_POST['ajouter_media'])) {
     exit;
 }
 
-// 🔻 Suppression selon le type (catégorie, élément, média)
+
 if (isset($_POST['supprimer'])) {
     $type = $_POST['type_suppression'];
-    $id = intval($_POST['id_suppression']);
+    $id = (int)$_POST['id_suppression'];
 
-    if ($type === 'categorie') {
-        Categorie::supprimer($id);
-    } elseif ($type === 'element') {
-        Element::supprimer($id);
-    } elseif ($type === 'media') {
-        Media::supprimer($id);
-    }
-
-    header("Location: admin_delete.php?deleted=1");
-    exit;
+    switch ($type) {
+		case 'categorie':
+			$id = (int)$_POST['id_suppression_categorie'];
+			Categorie::supprimer($id);
+			echo "Catégorie supprimée.";
+			break;
+		case 'element':
+			$id = (int)$_POST['id_suppression_element'];
+			Element::supprimer($id);
+			echo "Élément supprimé.";
+			break;
+		case 'media':
+			$id = (int)$_POST['id_suppression_media'];
+			Media::supprimer($id);
+			echo "Média supprimé.";
+			break;
+		default:
+			echo "Type de suppression invalide.";
+	}
+} else {
+    echo "<p style='color: red;'>Aucune action à effectuer.</p>";
 }
 
 ?>

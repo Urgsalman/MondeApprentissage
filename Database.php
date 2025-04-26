@@ -5,7 +5,7 @@ class Database {
 
     private function __construct() {
         $servername = "localhost";
-        $port = 3306; // Specify the port if necessary
+        $port = 3306; 
         $username = "root";
         $password = "";
         $dbname = "kids_learnings";
@@ -37,7 +37,6 @@ class Database {
     public function __clone() { }
     public function __wakeup() { }
 
-    // Destructor to close the connection when the script ends
     public function __destruct() {
         $this->closeConnection();
     }

@@ -1,30 +1,20 @@
 <?php
-// Configuration de la connexion MySQL
 $servername = "localhost";
-$username = "root"; // Remplacez par votre nom d'utilisateur MySQL
-$password = "";     // Remplacez par votre mot de passe MySQL
+$username = "root"; 
+$password = "";   
 
 try {
-    // Connexion au serveur MySQL
     $conn = new mysqli($servername, $username, $password);
-    
-    // Vérifier la connexion
     if ($conn->connect_error) {
         throw new Exception("Échec de la connexion : " . $conn->connect_error);
     }
-
-    // Création de la base de données si elle n'existe pas
     $sql = "CREATE DATABASE IF NOT EXISTS kids_learnings";
     if ($conn->query($sql) === TRUE) {
         echo "Base de données créée/existe déjà ✔️<br>";
     } else {
         throw new Exception("Erreur création base : " . $conn->error);
     }
-
-    // Sélectionner la base de données
     $conn->select_db("kids_learnings");
-
-    // Liste des tables à créer dans l'ordre
     $tables = [
         'administrateurs' => "
             CREATE TABLE IF NOT EXISTS administrateurs (
@@ -69,8 +59,6 @@ try {
             ) ENGINE=InnoDB;
         "
     ];
-
-    // Création des tables
     foreach ($tables as $name => $sql) {
         if ($conn->query($sql) === TRUE) {
             echo "Table '$name' créée ✔️<br>";
@@ -78,8 +66,6 @@ try {
             throw new Exception("Erreur table $name : " . $conn->error);
         }
     }
-
-    // Fermer la connexion
     $conn->close();
 
 } catch (Exception $e) {
