@@ -36,8 +36,6 @@ include 'client_header.php';
         </div>
     <?php else: 
     $categorie_id = intval($_GET['categorie_id']);
-        
-    // Get random element
     $stmt = $conn->prepare("SELECT * FROM elements WHERE categorie_id = ? ORDER BY RAND() LIMIT 1");
     $stmt->bind_param("i", $categorie_id);
     $stmt->execute();
@@ -52,8 +50,6 @@ include 'client_header.php';
     <?php 
     exit;
     endif;
-
-    // Get correct media
     $stmt = $conn->prepare("SELECT * FROM medias WHERE element_id = ? ORDER BY RAND() LIMIT 1");
     $stmt->bind_param("i", $element['id']);
     $stmt->execute();

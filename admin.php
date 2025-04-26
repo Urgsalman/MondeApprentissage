@@ -107,7 +107,11 @@ class Element {
 
 	public static function supprimer($id) {
 		$db = Database::getInstance()->getConnection();
-		$db->query("DELETE FROM elements WHERE id = $id");
+		$stmt = $db->prepare("DELETE FROM elements WHERE id = ?");
+		$stmt->bind_param("i", $id);
+		if (!$stmt->execute()) {
+			die("Erreur SQL : " . $stmt->error);
+		}
 	}
 
 

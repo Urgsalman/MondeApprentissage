@@ -124,7 +124,7 @@ require 'admin.php'; // inclut Categorie, Element, Media
         <!-- Sélection des catégories -->
         <div id="categorie-select" class="hidden">
             <label>Choisir une catégorie :</label>
-            <select name="id_suppression">
+            <select name="id_suppression_categorie">
                 <?php
                 $db = Database::getInstance()->getConnection();
                 $res = $db->query("SELECT id, nom FROM categories");
@@ -138,7 +138,7 @@ require 'admin.php'; // inclut Categorie, Element, Media
         <!-- Sélection des éléments -->
         <div id="element-select" class="hidden">
             <label>Choisir un élément :</label>
-            <select name="id_suppression">
+            <select name="id_suppression_element">
                 <?php
                 $res = $db->query("SELECT id, titre FROM elements");
                 while ($row = $res->fetch_object()) {
@@ -151,7 +151,7 @@ require 'admin.php'; // inclut Categorie, Element, Media
         <!-- Sélection des médias -->
         <div id="media-select" class="hidden">
             <label>Choisir un média :</label>
-            <select name="id_suppression">
+            <select name="id_suppression_media">
                 <?php
                 $res = $db->query("SELECT id, titre FROM medias");
                 while ($row = $res->fetch_object()) {

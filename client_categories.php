@@ -48,24 +48,23 @@ $categoryColors = [
             $slug = strtolower(str_replace(' ', '-', $cat['nom']));
         ?>
             <div class="category-card category-<?= $slug ?>">
-                <a href="client_elements.php?categorie_id=<?= $cat['id'] ?>">
-                    <?php if (!empty($cat['image'])): ?>
-                        <img src="uploads/<?= htmlspecialchars($cat['image']) ?>" 
-                             alt="<?= htmlspecialchars($cat['nom']) ?>">
-                    <?php else: ?>
-                        <div class="no-image"><span><?= substr($cat['nom'], 0, 1) ?></span></div>
-                    <?php endif; ?>
-                    <div class="category-content">
-                        <h3><?= htmlspecialchars($cat['nom']) ?></h3>
-                        <div class="category-stats">
-                            <?= $cat['elements_count'] ?> élément<?= $cat['elements_count'] > 1 ? 's' : '' ?>
-                        </div>
-                        <span class="explore-btn" style="background-color: <?= $color ?>">
-                            Explorer <span class="icon">→</span>
-                        </span>
-                    </div>
-                </a>
+    <a href="client_elements.php?categorie_id=<?= $cat['id'] ?>" class="category-link">
+        <?php if (!empty($cat['image'])): ?>
+            <img src="uploads/<?= htmlspecialchars($cat['image']) ?>" alt="<?= htmlspecialchars($cat['nom']) ?>">
+        <?php else: ?>
+            <div class="no-image"><span><?= substr($cat['nom'], 0, 1) ?></span></div>
+        <?php endif; ?>
+        <div class="category-content">
+            <h3 class="category-title"><?= htmlspecialchars($cat['nom']) ?></h3>
+            <div class="category-stats">
+                <?= $cat['elements_count'] ?> élément<?= $cat['elements_count'] > 1 ? 's' : '' ?>
             </div>
+            <span class="explore-btn" style="background-color: <?= $color ?>">
+                Explorer <span class="icon">→</span>
+            </span>
+        </div>
+    </a>
+</div>
         <?php endforeach; ?>
     </div>
 </section>
