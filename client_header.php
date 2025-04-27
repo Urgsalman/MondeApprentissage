@@ -27,7 +27,6 @@
                 </a>
             </div>
             
-            <!-- Navigation principale -->
             <nav class="primary-nav">
                 <ul>
                     <li><a href="index.php" class="<?= basename($_SERVER['PHP_SELF']) == 'index.php' ? 'active' : '' ?>">
@@ -39,13 +38,10 @@
                     <li><a href="client_quiz.php" class="<?= basename($_SERVER['PHP_SELF']) == 'client_quiz.php' ? 'active' : '' ?>">
                         <span class="nav-text">Quiz</span>
                     </a></li>
-                    <li><a href="client_math_quiz.php">
-                        <span class="nav-text">Maths</span>
-                    </a></li>
+                    <li><a href="client_math_quiz.php" >Maths</a></li>
                 </ul>
             </nav>
             
-            <!-- Bouton Admin -->
             <div class="admin-access">
                 <a href="admin_interface.php" class="admin-btn">
                     <span class="admin-text">Espace Admin</span>
