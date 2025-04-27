@@ -6,7 +6,8 @@
 Développement d'un site web interactif pour l'apprentissage des enfants.
 
 ## 👨‍💻 Réalisé par
-Projet en groupe de 3 à 4 personnes dans le cadre du module de Programmation Web en PHP.
+@zkhribach
+
 
 ---
 
