@@ -9,8 +9,20 @@ if (isset($_GET['logout'])) {
 }
 
 if (isset($_POST['login'])) {
-    if ($_POST['username'] === 'admin' && $_POST['password'] === 'admin') {
+    $username = $_POST['username'];
+    $password = $_POST['password'];
+
+    $db = Database::getInstance();
+    $conn = $db->getConnection();
+
+    $stmt = $conn->prepare("SELECT * FROM administrateurs WHERE nom_utilisateur = ? AND mot_de_passe = ?");
+    $stmt->bind_param("ss", $username, $password);
+    $stmt->execute();
+    $result = $stmt->get_result();
+
+    if ($result->num_rows > 0) {
         $_SESSION['logged_in'] = true;
+        $_SESSION['username'] = $username; // store username if needed
         header("Location: admin_interface.php");
         exit;
     } else {
@@ -20,6 +32,7 @@ if (isset($_POST['login'])) {
 
 if (!isset($_SESSION['logged_in'])) {
 ?>
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
