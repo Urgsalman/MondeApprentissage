@@ -149,18 +149,23 @@ require 'admin.php'; // inclut Categorie, Element, Media
         </div>
 
         <!-- Sélection des médias -->
-        <div id="media-select" class="hidden">
-            <label>Choisir un média :</label>
-            <select name="id_suppression_media">
-                <?php
-                $res = $db->query("SELECT id, titre FROM medias");
-                while ($row = $res->fetch_object()) {
-                    $titre = $row->titre ?: "(sans titre)";
-                    echo "<option value='{$row->id}'>[{$row->id}] {$titre}</option>";
-                }
-                ?>
-            </select>
-        </div>
+		<div id="media-select" class="hidden">
+			<label>Choisir un média :</label>
+			<select name="id_suppression">
+				<?php
+				$res = $db->query("
+					SELECT medias.id, medias.typee, elements.titre AS element_titre
+					FROM medias
+					JOIN elements ON medias.element_id = elements.id
+				");
+				while ($row = $res->fetch_object()) {
+					$elementTitre = $row->element_titre ?: "(élément sans titre)";
+					$typee = ucfirst($row->typee); // Capitalize first letter (optional)
+					echo "<option value='{$row->id}'>[{$row->id}] {$elementTitre} - {$typee}</option>";
+				}
+				?>
+			</select>
+		</div>
 
         <button type="submit" name="supprimer">Supprimer</button>
     </form>
