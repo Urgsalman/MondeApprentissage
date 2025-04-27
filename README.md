@@ -8,6 +8,9 @@ Développement d'un site web interactif pour l'apprentissage des enfants.
 ## 👨‍💻 Réalisé par
 [@zkhribach](https://github.com/zkhribach) (Ziyad KHRIBACH)
 [@Urgsalman](https://github.com/Urgsalman) (Cherif Soulaimane)
+[@ZakL25](https://github.com/ZakL25) (Zakaria Abde Laabid)
+
+
 
 ---
 
