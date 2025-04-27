@@ -71,7 +71,14 @@ include 'client_header.php';
         </video>
     </div>
 <?php endif; ?>
-
+<?php if ($categorie_id === 3): ?>
+    <div style="text-align: center; margin: 2rem 0;">
+        <video controls style="max-width: 50%; height: auto;">
+            <source src="uploads/chiffre.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+    </div>
+<?php endif; ?>
 
 <section class="elements-container">
     <div class="elements-grid">

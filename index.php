@@ -28,7 +28,7 @@ $pageTitle = "Accueil - MondeApprentissage";
 
 // Define category IDs (you should replace these with your actual category IDs)
 $categoryIds = [
-    'Animaux' => 1,       // Replace with actual ID from your database
+    'Animaux' => 2,       // Replace with actual ID from your database
     'Transports' => 4,    // Replace with actual ID from your database
     'Nombres' => 3,       // Replace with actual ID from your database
     'Couleurs' => 5       // Replace with actual ID from your database
