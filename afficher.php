@@ -139,7 +139,7 @@ $result = $db->query($sql);
                         <td>
                             <a href="modifier.php?id=<?= htmlspecialchars($row->media_id) ?>" class="btn-edit">Modifier</a>
                             <form action="traitement.php" method="post" style="display:inline;">
-                                <input type="hidden" name="id_suppression" value="<?= htmlspecialchars($row->media_id) ?>">
+                                <input type="hidden" name="id_suppression_media" value="<?= htmlspecialchars($row->media_id) ?>">
                                 <input type="hidden" name="type_suppression" value="media">
                                 <button type="submit" name="supprimer" class="btn-delete">Supprimer</button>
                             </form>
