@@ -10,7 +10,7 @@ if ($element_id === 0) {
     exit;
 }
 
-// Récupération de l'élément
+// Récupération de l'élément à partir de l'ID
 $query = "SELECT * FROM elements WHERE id = ?";
 $stmt = $conn->prepare($query);
 $stmt->bind_param("i", $element_id);
@@ -23,7 +23,7 @@ if (!$element) {
     exit;
 }
 
-// Récupération des médias
+// Récupération des médias associés à l'élément
 $query = "SELECT * FROM medias WHERE element_id = ? ORDER BY date_creation";
 $stmt = $conn->prepare($query);
 $stmt->bind_param("i", $element_id);

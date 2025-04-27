@@ -6,7 +6,7 @@ require_once 'Database.php';
 $db = Database::getInstance();
 $conn = $db->getConnection();
 
-// Récupération des catégories
+// Récupération des catégories à partir de la base de données
 $query = "SELECT id, nom FROM categories WHERE nom IN ('Animaux', 'Transports', 'Nombres', 'Couleurs')";
 $result = $conn->query($query);
 $categories = [];
@@ -14,11 +14,11 @@ while ($row = $result->fetch_assoc()) {
     $categories[$row['nom']] = $row['id'];
 }
 
-// Récupération des éléments populaires
+// Récupération des éléments populaires parmi les médias
 $popularQuery = "SELECT e.id, e.titre, e.categorie_id, c.nom as categorie_nom 
                  FROM elements e
                  JOIN categories c ON e.categorie_id = c.id
-                 ORDER BY RAND() LIMIT 4"; // Vous pouvez remplacer par votre propre logique de popularité
+                 ORDER BY RAND() LIMIT 4"; 
 $popularResult = $conn->query($popularQuery);
 $popularItems = $popularResult->fetch_all(MYSQLI_ASSOC);
 ?>
@@ -26,15 +26,15 @@ $popularItems = $popularResult->fetch_all(MYSQLI_ASSOC);
 <?php 
 $pageTitle = "Accueil - MondeApprentissage";
 
-// Define category IDs (you should replace these with your actual category IDs)
+// Les ID des catégories 
 $categoryIds = [
-    'Animaux' => 2,       // Replace with actual ID from your database
-    'Transports' => 4,    // Replace with actual ID from your database
-    'Nombres' => 3,       // Replace with actual ID from your database
-    'Couleurs' => 5       // Replace with actual ID from your database
+    'Animaux' => 2,       
+    'Transports' => 4,    
+    'Nombres' => 3,       
+    'Couleurs' => 5       
 ];
 ?>
-
+<!-- Page d'acceuil client -->
 <!-- Section Bienvenue -->
 <section class="welcome-section">
     <div class="welcome-content">
@@ -67,9 +67,8 @@ $categoryIds = [
         
         <a href="client_elements.php?categorie_id=<?= $categoryIds['Nombres'] ?>" class="category-card">
             <img src="uploads/categories/nombres.jpg" alt="Nombres">
-            <h3>Nombres</h3>
+            <h3>Chiffres</h3>
         </a>
-        
         <a href="client_elements.php?categorie_id=<?= $categoryIds['Couleurs'] ?>" class="category-card">
             <img src="uploads/categories/couleurs.jpg" alt="Couleurs">
             <h3>Couleurs</h3>
@@ -82,8 +81,7 @@ $categoryIds = [
 </section>
 
 
-
-<!-- Nouvelle Section Contenus populaires -->
+<!-- Section Contenus populaires -->
 <section class="popular-section">
     <h2>Contenus populaires</h2>
     <p>Découvre les éléments les plus appréciés par nos petits explorateurs !</p>
@@ -93,7 +91,6 @@ $categoryIds = [
             <a href="client_media.php?element_id=<?= $item['id'] ?>" class="popular-card">
                 <div class="popular-badge">Populaire</div>
                 <?php 
-                // Vous devrez adapter ce chemin selon votre structure de fichiers
                 $imagePath = "uploads/elements/" . strtolower(str_replace(' ', '-', $item['titre'])) . ".jpg";
                 ?>
                 <img src="<?= file_exists($imagePath) ? $imagePath : 'uploads/default-element.gif' ?>" alt="<?= $item['titre'] ?>">
@@ -109,7 +106,7 @@ $categoryIds = [
 <?php include 'client_footer.php'; ?> 
 
 <style>
-/* Styles pour la nouvelle section populaire */
+/* Styles pour la section populaire */
 .popular-section {
     padding: 40px 20px;
     background-color: #f9f9f9;
