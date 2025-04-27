@@ -10,6 +10,8 @@ if ($categorie_id === 0) {
     exit;
 }
 
+
+
 // Récupération de la catégorie
 $query = "SELECT *, nom AS nom_categorie FROM categories WHERE id = ?";
 $stmt = $conn->prepare($query);
@@ -61,6 +63,15 @@ include 'client_header.php';
     <?php endif; ?>
     <a href="client_categories.php" class="btn-back">← Retour aux catégories</a>
 </div>
+<?php if ($categorie_id === 1): ?>
+    <div style="text-align: center; margin: 2rem 0;">
+        <video controls style="max-width: 50%; height: auto;">
+            <source src="uploads/Alphabet.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+    </div>
+<?php endif; ?>
+
 
 <section class="elements-container">
     <div class="elements-grid">
