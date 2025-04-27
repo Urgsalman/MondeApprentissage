@@ -1,6 +1,6 @@
 <?php
 error_reporting(E_ERROR);
-require 'admin.php'; // inclut Categorie, Element, Media
+require 'admin.php'; 
 ?>
 
 <!DOCTYPE html>
