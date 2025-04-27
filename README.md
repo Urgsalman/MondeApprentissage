@@ -46,14 +46,47 @@ Développement d'un site web interactif pour l'apprentissage des enfants.
 
 ## 📂 Structure du projet
 
-- **admin_interface.php** : Interface de connexion et d'administration
-- **admin_insert.php / admin_delete.php** : Insertion et suppression de données
-- **client_categories.php** : Affichage des catégories pour les utilisateurs
-- **client_elements.php** : Affichage des éléments et médias associés
-- **client_quiz.php** : Quiz généré à partir des catégories
-- **uploads/** : Contient les médias (images, audios, vidéos)
-- **data/** : Dossier à copier dans `mysql` pour restaurer la base de données
-- **css/**, **js/** : Fichiers de style et scripts éventuels
+Partie Client
+
+index.php : Page d'accueil du site
+client_header.php : En-tête des pages client
+client_footer.php : Pied de page des pages client
+client_categories.php : Affichage des catégories pour les utilisateurs
+client_elements.php : Affichage des éléments et médias associés
+client_quiz.php : Quiz généré à partir des catégories
+client_quiz_result.php : Affichage des résultats de quiz
+client_math_quiz.php : Quiz spécifique aux mathématiques
+client_media.php : Gestion de l'affichage des médias
+
+Partie Administration
+
+admin.php : Page principale d'administration
+admin_interface.php : Interface de connexion et d'administration
+admin_insert.php : Insertion de données
+admin_delete.php : Suppression de données
+modifier.php : Interface générale de modification
+modifier_categorie.php : Modification des catégories
+modifier_element.php : Modification des éléments
+traitement.php : Traitement des données soumises
+
+Utilitaires
+
+Database.php : Gestion de la connexion à la base de données
+fix_database.php : Réparation de la base de données
+helper.php : Fonctions d'aide diverses
+afficher.php : Fonctions d'affichage génériques
+install.php : Script d'installation de l'application
+
+Ressources
+
+uploads/ : Contient les médias (images, audios, vidéos)
+data/ : Dossier à copier dans mysql pour restaurer la base de données
+css/ : Fichiers de style (dont style_admin.css)
+js/ : Scripts JavaScript
+
+Documentation
+
+README.md : Documentation du projet
 
 ---
 
