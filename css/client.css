@@ -72,7 +72,7 @@ nav ul li a:hover, nav ul li a.active {
     transform: scale(1.05);
 }
 
-/* Section héro */
+/* Section héro (bienvenue) */
 .hero {
     background: linear-gradient(135deg, #66d9ff 0%, #4186ff 100%);
     padding: 4rem 2rem;
@@ -481,7 +481,6 @@ audio, video {
         font-size: 2rem;
     }
 }
-/* Ajoutez ces styles à votre fichier CSS existant */
 
 /* Styles pour les galeries d'images */
 .image-gallery {
@@ -548,7 +547,7 @@ audio, video {
     border-radius: 8px;
 }
 
-/* Amélioration des cartes de catégories */
+/* Style des cartes de catégories */
 .category-card {
     position: relative;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
@@ -585,7 +584,7 @@ audio, video {
     font-weight: bold;
     color: white;
 }
-/* Styles pour la mascotte */
+/* Styles pour la mascotte (page d'acceuil) */
 .mascot {
     margin: 1.5rem auto;
     text-align: center;
@@ -1349,14 +1348,14 @@ audio, video {
     transform: translateX(5px);
 }
 /* ===== STYLE PROTÉGÉ POUR LES BOUTONS QUIZ ===== */
-/* À mettre APRÈS les styles de l'index */
+
 body.client_quiz .start-quiz-btn,
 body.client_quiz_result .quiz-btn {
     background: #FF9800 !important;
     color: white !important;
     padding: 0.8rem 1.5rem !important;
     border-radius: 30px !important;
-    /* Autres styles spécifiques au quiz */
+    
 }
 .simple-footer {
     background-color: #2c3e50;
@@ -1411,7 +1410,7 @@ body.client_quiz_result .quiz-btn {
         gap: 10px;
     }
 }
-/* Style amélioré pour les titres de catégories */
+/* Style pour les titres de catégories */
 .category-title {
     font-family: 'Poppins', sans-serif;
     font-weight: 700;
@@ -1425,7 +1424,7 @@ body.client_quiz_result .quiz-btn {
     text-decoration: none !important;
 }
 
-/* Effet de soulignement créatif */
+/* Effet de soulignement */
 .category-title::after {
     content: '';
     position: absolute;

@@ -3,7 +3,7 @@ require_once 'Database.php';
 $db = Database::getInstance();
 $conn = $db->getConnection();
 
-// 1. Requête simplifiée sans alias inutile
+// Requête sql simplifiée pour récupérer les catégories et les éléments
 $query = "SELECT * FROM categories ORDER BY nom";
 $result = $conn->query($query);
 
@@ -11,7 +11,7 @@ if ($result === false) die("Erreur de requête: " . $conn->error);
 
 $categories = $result->fetch_all(MYSQLI_ASSOC);
 
-// 2. Comptage des éléments avec réinitialisation de la référence
+// Comptage des éléments avec réinitialisation de la référence
 foreach ($categories as &$category) {
     $stmt = $conn->prepare("SELECT COUNT(*) as count FROM elements WHERE categorie_id = ?");
     $stmt->bind_param("i", $category['id']);
@@ -20,7 +20,7 @@ foreach ($categories as &$category) {
     $category['elements_count'] = $count;
     $stmt->close();
 }
-unset($category); // Correction clé
+unset($category); 
 
 include 'client_header.php';
 
@@ -35,7 +35,7 @@ $categoryColors = [
     'Nature' => '#48C9B0'
 ];
 ?>
-
+<!-- Page HTML d'accueil des catégories -->
 <div class="page-banner">
     <h1>Explore toutes nos catégories</h1>
     <p>Choisis une catégorie et commence ton aventure d'apprentissage !</p>
@@ -44,7 +44,7 @@ $categoryColors = [
 <section class="categories-full">
     <div class="categories-grid">
         <?php foreach ($categories as $cat): 
-            $color = $categoryColors[$cat['nom']] ?? '#4AB1FF'; // Couleur par défaut
+            $color = $categoryColors[$cat['nom']] ?? '#4AB1FF'; 
             $slug = strtolower(str_replace(' ', '-', $cat['nom']));
         ?>
             <div class="category-card category-<?= $slug ?>">
@@ -123,7 +123,7 @@ $categoryColors = [
     color: #666;
 }
 
-/* Style amélioré pour le bouton Explorer */
+/* Style pour le bouton Explorer */
 .explore-btn {
     display: inline-flex;
     align-items: center;
@@ -151,7 +151,7 @@ $categoryColors = [
     transform: translateX(5px);
 }
 
-/* Effet de vague au survol */
+/* Effet de vague au survol(hover) */
 .explore-btn {
     position: relative;
     overflow: hidden;

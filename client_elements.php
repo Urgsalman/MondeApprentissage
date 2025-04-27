@@ -10,7 +10,7 @@ if ($categorie_id === 0) {
     exit;
 }
 
-// Récupération de la catégorie
+// Récupération de la catégorie à partir de l'ID
 $query = "SELECT *, nom AS nom_categorie FROM categories WHERE id = ?";
 $stmt = $conn->prepare($query);
 $stmt->bind_param("i", $categorie_id);
@@ -23,7 +23,7 @@ if (!$category) {
     exit;
 }
 
-// Récupération des éléments
+// Récupération des éléments de la catégorie
 $query = "SELECT * FROM elements WHERE categorie_id = ? ORDER BY titre";
 $stmt = $conn->prepare($query);
 $stmt->bind_param("i", $categorie_id);
@@ -39,7 +39,7 @@ while ($row = $result->fetch_assoc()) {
     ];
 }
 
-// Récupération des médias associés
+// Récupération des médias associés à chaque élément
 if (count($elements) > 0) {
     $ids_string = implode(',', array_keys($elements));
     $query = "SELECT * FROM medias WHERE element_id IN ($ids_string) ORDER BY date_creation";
@@ -53,7 +53,7 @@ if (count($elements) > 0) {
 $pageTitle = $category['nom_categorie'];
 include 'client_header.php';
 ?>
-
+<!-- Page HTML des éléments -->
 <div class="page-banner category-specific-banner" style="background-color: <?= !empty($category['color']) ? $category['color'] : '#4ab1ff'; ?>">
     <h1><?= $category['nom_categorie']; ?></h1>
     <?php if (!empty($category['description'])): ?>
