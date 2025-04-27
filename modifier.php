@@ -26,7 +26,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $titre = $_POST['titre'];
     $chemin_fichier = $_POST['chemin_fichier_existant'];
     if (isset($_FILES['chemin_fichier']) && $_FILES['chemin_fichier']['error'] == 0) {
-        $chemin_fichier = 'uploads/' . basename($_FILES['chemin_fichier']['name']);
+        $chemin_fichier = basename($_FILES['chemin_fichier']['name']);
         move_uploaded_file($_FILES['chemin_fichier']['tmp_name'], $chemin_fichier);
     }
 
