@@ -20,6 +20,11 @@ https://esiac-my.sharepoint.com/:v:/g/personal/zakaria-abderrahmane_laabid_esi_a
 
 ---
 
+## Connexion dans l'espace admin (en cas de probleme)
+
+1-Si vous rencontrer des probleme lors de l'insertion de l'utilisateur: admin et mot de passe: admin il est conseilé de prendre le folder data dans le code source de le copier et le coller dans Disquelocal C -> xampp -> mysql -> coller le fichier dans ce folder .
+2- Vous acceder après à localhost/phpmyadmin puis vous cliquer dans la table administrateurs puis inset et vous inserer un utilisateur et mot de passe propres à vous .
+
 ## 📋 Fonctionnalités
 
 ### 🛠 Côté Administrateur
